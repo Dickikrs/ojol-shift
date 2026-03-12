@@ -1,1 +1,107 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ojol Motor Libur Shift</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; background-color: #f0fdf4; }
+        .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 400px; margin: auto; }
+        
+        h2 { color: #166534; text-align: center; margin-bottom: 5px; }
+        p.subtitle { text-align: center; color: #666; font-size: 13px; margin-bottom: 20px; }
+
+        /* Style untuk Status Buka/Tutup */
+        .status-box { text-align: center; background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px; border-radius: 10px; margin-bottom: 20px; }
+        #status-text { font-weight: bold; font-size: 16px; display: block; margin-bottom: 5px; }
+        .btn-toggle { background-color: #64748b; color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-size: 11px; text-transform: uppercase; }
+
+        label { display: block; margin-top: 15px; font-weight: bold; color: #333; font-size: 14px; }
+        input, select, textarea { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
+        
+        #btn-pesan { width: 100%; background-color: #22c55e; color: white; padding: 15px; border: none; border-radius: 8px; margin-top: 25px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        #btn-pesan:disabled { background-color: #cbd5e1; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Ojol Motor Libur</h2>
+    <p class="subtitle">Solusi antar jemput pas lagi gak shift!</p>
+
+    <div class="status-box">
+        <span id="status-text" style="color: #ef4444;">● STATUS: SEDANG KERJA SHIFT</span>
+        <button class="btn-toggle" onclick="toggleStatus()">Ganti Status Kerja</button>
+    </div>
+    
+    <label>Nama Anda:</label>
+    <input type="text" id="nama" placeholder="Contoh: Pak RT">
+
+    <label>Jenis Layanan:</label>
+    <select id="layanan">
+        <option value="Ojek Motor">Ojek Motor (Boncengan)</option>
+        <option value="Kirim Barang">Kirim Paket (Pake Motor)</option>
+        <option value="Jastip">Jasa Titip (Beli Makanan/Barang)</option>
+    </select>
+
+    <label>Titik Jemput / Alamat Beli:</label>
+    <textarea id="jemput" rows="2" placeholder="Contoh: Depan Alfamart Sudirman"></textarea>
+
+    <label>Titik Tujuan / Alamat Antar:</label>
+    <textarea id="tujuan" rows="2" placeholder="Contoh: Komplek Budi Indah Blok C"></textarea>
+
+    <button id="btn-pesan" onclick="kirimWA()" disabled>Maaf, Lagi Off Shift</button>
+</div>
+
+<script>
+    let isOpen = false;
+
+    // Fungsi untuk ganti status Buka/Tutup
+    function toggleStatus() {
+        isOpen = !isOpen;
+        const statusText = document.getElementById('status-text');
+        const btnPesan = document.getElementById('btn-pesan');
+
+        if (isOpen) {
+            statusText.innerText = "● STATUS: LAGI LIBUR (OPEN)";
+            statusText.style.color = "#22c55e";
+            btnPesan.disabled = false;
+            btnPesan.innerText = "Pesan via WhatsApp";
+        } else {
+            statusText.innerText = "● STATUS: SEDANG KERJA SHIFT";
+            statusText.style.color = "#ef4444";
+            btnPesan.disabled = true;
+            btnPesan.innerText = "Maaf, Lagi Off Shift";
+        }
+    }
+
+    // Fungsi kirim pesanan
+    function kirimWA() {
+        // GANTI NOMOR DI BAWAH INI DENGAN NOMOR WA ANDA
+        const nomorWA = "6288292166729"; 
+        
+        const nama = document.getElementById('nama').value;
+        const layanan = document.getElementById('layanan').value;
+        const jemput = document.getElementById('jemput').value;
+        const tujuan = document.getElementById('tujuan').value;
+
+        if (nama === "" || jemput === "" || tujuan === "") {
+            alert("Isi data yang lengkap dulu ya!");
+            return;
+        }
+
+        const pesan = `Halo Bang Ojol, ada orderan pas lagi libur nih:%0A%0A` +
+                      `*Nama:* ${nama}%0A` +
+                      `*Layanan:* ${layanan}%0A` +
+                      `*Lokasi:* ${jemput}%0A` +
+                      `*Tujuan:* ${tujuan}%0A%0A` +
+                      `Bisa diambil sekarang?`;
+
+        const url = `https://wa.me/${nomorWA}?text=${pesan}`;
+        window.open(url, '_blank');
+    }
+</script>
+
+</body>
+</html>
 
